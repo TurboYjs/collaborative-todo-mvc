@@ -2,6 +2,7 @@ import { Doc } from "yjs";
 import { WebrtcProvider, WebrtcProviderOptions } from "y-webrtc";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { generateRandomString } from "@/util";
+import { WebsocketProvider } from "y-websocket";
 
 export const doc = new Doc();
 doc.gc = true;
@@ -24,13 +25,12 @@ function init() {
 
   // TODO: load rooms from localstorage and give them a nice name
 
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const webrtcProvider = new WebrtcProvider("superduper-todo-test-" + room, doc, {
+  const webrtcProvider = new WebrtcProvider(room, doc, {
     password,
     peerOpts: {},
   } as WebrtcProviderOptions);
-
-  const indexeddbProvider = new IndexeddbPersistence(room, doc);
+  const websocketProvider = new WebsocketProvider("wss://demos.yjs.dev", room, doc);
+  // const indexeddbProvider = new IndexeddbPersistence(room, doc);
 }
 
 window.addEventListener("hashchange", init);
